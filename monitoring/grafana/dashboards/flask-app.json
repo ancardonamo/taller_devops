@@ -1,0 +1,33 @@
+{
+  "uid": "flask-app",
+  "title": "Flask App - Observabilidad",
+  "schemaVersion": 39,
+  "time": { "from": "now-15m", "to": "now" },
+  "refresh": "5s",
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Visitas totales (webapp_visits_total)",
+      "gridPos": { "x": 0, "y": 0, "w": 8, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "refId": "A", "expr": "webapp_visits_total" }]
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Visitas por minuto",
+      "gridPos": { "x": 8, "y": 0, "w": 16, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "refId": "A", "expr": "rate(webapp_visits_total[1m]) * 60", "legendFormat": "visitas/min" }]
+    },
+    {
+      "id": 3, "type": "stat", "title": "Estado del target (up)",
+      "gridPos": { "x": 0, "y": 8, "w": 8, "h": 6 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "refId": "A", "expr": "up{job=\"flask-app\"}" }]
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Memoria residente del proceso (MB)",
+      "gridPos": { "x": 8, "y": 8, "w": 16, "h": 6 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "refId": "A", "expr": "process_resident_memory_bytes{job=\"flask-app\"} / 1024 / 1024", "legendFormat": "MB" }]
+    }
+  ]
+}
